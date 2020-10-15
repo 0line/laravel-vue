@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx-laravelvue
+    ports:
+      - "8080:80"
+      - "443:443"
+    volumes:
+      - ./laravel:/var/www/html
+      - ./nginx/site.conf:/etc/nginx/conf.d/site.conf
+    links:
+      - php
+      - db
+  php:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    image: php:7.4-fpm
+    container_name: php-laravelvue
+    environment:
+      SERVICE_NAME: php
+    working_dir: /var/www/html
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./laravel:/var/www/html
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    links:
+        - db
+  db:
+    image: mariadb
+    container_name: mariadb-laravelvue
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+        - "33061:3306"
+    volumes:
+        - ./mariadb:/var/lib/mysql
