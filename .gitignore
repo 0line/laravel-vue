@@ -1,2 +1,10 @@
 
 mariadb/
+
+laravel/prueba-drops/node_modules/
+
+laravel/prueba-drops/storage/logs/
+
+laravel/prueba-drops/vendor/
+
+laravel/prueba-drops/.env
